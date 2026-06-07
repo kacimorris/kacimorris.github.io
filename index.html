@@ -29,7 +29,8 @@
           <span class="section-title">about</span>
         </div>
         <div class="section-body">
-          <p>placeholder</p>
+          <p>I'm a sophomore at Stanford studying CS and mathematics. I care about what happens when rigorous computation meets the physical world — flight-critical systems, neural network internals, orbital mechanics. This summer I'm at <a href="https://www.relativity.space" target="_blank" rel="noopener">Relativity Space</a> writing flight software. I research mechanistic interpretability at the <a href="https://acmml.stanford.edu" target="_blank" rel="noopener">Stanford ACM ML Lab</a> and spent last summer at <a href="https://www.janestreet.com" target="_blank" rel="noopener">Jane Street</a> as part of AMP.</p>
+          <p>Before Stanford I was a competitive earth scientist — two-time Science Olympiad national champion, USESO top 50 — and I co-discovered a <a href="https://www.minorplanetcenter.net" target="_blank" rel="noopener">minor planet</a> during a summer of computational astrophysics at CU Boulder. I'm also slowly writing a short story called <em>Gaia</em>.</p>
         </div>
       </section>
 
@@ -48,7 +49,7 @@
             </div>
             <div class="entry-role">flight software intern · Long Beach, CA</div>
             <ul class="bullets">
-              <li>placeholder</li>
+              <li>Developing flight-critical embedded software for Terran R, Relativity's fully reusable, 3D-printed launch vehicle.</li>
             </ul>
           </div>
 
@@ -217,184 +218,5 @@
 
     </main>
   </div>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/b1840749b6.js" crossorigin="anonymous"></script>
-
-    <title>kaci morris</title>
-    <link rel="stylesheet" href="main.css">
-</head>
-<body>
-    <div class="night-sky"></div>
-    
-
-
-    <div id="theme-toggle">
-        <i class="fa-solid fa-moon"></i>
-    </div>
-    <header>
-        <div class="name">kaci morris</div>
-        
-        <div class="header-row">
-            <div class="school">
-                eecs @ stanford
-            </div>
-
-
-            <div class ="social-buttons">
-                <a href="https://github.com/kacimorris" target="_blank"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/kaci-morris/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-            </div>
-        </div>
-
-    </header>
-
-    <nav>
-        <ul>
-            <li class="tab active" data-tab="home">home</li>
-            <li class="tab" data-tab="projects">projects</li>
-            <!-- <li class="tab" data-tab="resume">resume</li> -->
-        </ul>
-    </nav>
-
-    <main>
-        <div class="tab-content active" id="home">
-            <p>hello! i'm kaci, an undergrad at stanford university studying computer science and electrical engineering.</p>
-            <p>i'm passionate about building software, exploring ai/ml, and tackling interesting problems. when i'm not programming, you can find me crocheting or building my next playlist.</p>
-            <p>feel free to check out my projects, or shoot me an email at kacim [at] stanford [dot] edu.</p>
-        </div>
-
-        <div class="tab-content" id="projects">
-            <h2>my projects</h2>
-            
-            <div class="project-item">
-                <div class="project-title">Personal Website</div>
-                <div class="project-tech">Built with: HTML, CSS, JavaScript</div>
-                You're looking at it!
-            </div>
-
-            <div class="project-item">
-                <div class="project-title">Orbit Determination</div>
-                <div class="project-tech">Built with: Python</div>
-                <p>Built an algorithm that determines the orbital elements of an asteroid given astronomical data. Developed as a part of the Summer Science Program at the University of Colorado-Boulder.</p>
-            </div>
-        </div>
-
-        <!-- <div class="tab-content" id="resume">
-            <h2>resume</h2>
-            <p>you can view or download my resume here:</p>
-            <p><a href="#">download resume (pdf)</a></p>
-            
-            <h3 style="margin-top: 30px;">education</h3>
-            <p><strong>stanford university</strong><br>
-            wip</p>
-
-            <h3 style="margin-top: 30px;">skills</h3>
-            <p>wip</p>
-        </div> -->
-    </main>
-
-    <script>
-        // get all tab buttons and content sections
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        // add click event listener to each tab
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // remove active class from all tabs and content
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-
-                // add active class to clicked tab
-                tab.classList.add('active');
-
-                // show corresponding content
-                const targetTab = tab.getAttribute('data-tab');
-                document.getElementById(targetTab).classList.add('active');
-            });
-        });
-
-        // generate random stars
-        function createStars() {
-            const nightSky = document.querySelector('.night-sky');
-            const starCount = 150;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                // Random size
-                const sizes = ['small', 'medium', 'large'];
-                const weights = [0.7, 0.25, 0.05];
-                let randomSize = Math.random();
-                let size = 'small';
-                
-                if (randomSize > weights[0]) {
-                    if (randomSize > weights[0] + weights[1]) {
-                        size = 'large';
-                    } else {
-                        size = 'medium';
-                    }
-                }
-                
-                star.classList.add(size);
-                
-                // random position
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                
-                // random animation delay
-                star.style.animationDelay = Math.random() * 4 + 's';
-                
-                nightSky.appendChild(star);
-            }
-        }
-
-        // initialize
-        createStars();
-
-        // create shooting stars periodically
-        function createShootingStar() {
-            const nightSky = document.querySelector('.night-sky');
-            const shootingStar = document.createElement('div');
-            shootingStar.className = 'shooting-star';
-            shootingStar.style.top = Math.random() * 50 + '%';
-            shootingStar.style.left = '-100px';
-            
-            nightSky.appendChild(shootingStar);
-            
-            // remove the shooting star after animation completes
-            setTimeout(() => {
-                shootingStar.remove();
-            }, 8000);
-        }
-
-        // create shooting stars at random intervals
-        setInterval(() => {
-            if (Math.random() < 0.3) { 
-                createShootingStar();
-            }
-        }, 3000);
-
-
-        const themeToggle = document.getElementById('theme-toggle');
-        const icon = themeToggle.querySelector('i');
-
-        themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-mode');
-
-        if (document.body.classList.contains('light-mode')) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        }
-        });
-        
-
-    </script>
-    
 </body>
 </html>
