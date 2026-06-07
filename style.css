@@ -14,8 +14,8 @@
   --text-secondary: #bcbab0;
   --text-tertiary:  #99978f;
 
-  --border-light:  rgba(0,0,0,0.10);
-  --border-medium: rgba(0,0,0,0.18);
+  --border-light:  #bcbab0;
+  --border-medium: #99978f;
 
   --bg: #30302e;
 
