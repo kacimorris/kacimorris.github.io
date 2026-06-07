@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaci Morris</title>
+  <meta name="description" content="Kaci Morris — CS + Math at Stanford. Flight software, mechanistic interpretability, computational geoscience.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="header">
+      <div class="header-name">Kaci Morris</div>
+      <nav class="header-nav">
+        <a href="mailto:kacim@stanford.edu">kacim@stanford.edu</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">github</a>
+        <a href="https://linkedin.com/in/" target="_blank" rel="noopener">linkedin</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">resume</a>
+      </nav>
+    </header>
+
+    <main>
+
+      <!-- 00 about -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-num">00</span>
+          <span class="section-title">about</span>
+        </div>
+        <div class="section-body">
+          <p>I'm a sophomore at Stanford studying CS and mathematics. I care about what happens when rigorous computation meets the physical world — flight-critical systems, neural network internals, orbital mechanics. This summer I'm at <a href="https://www.relativity.space" target="_blank" rel="noopener">Relativity Space</a> writing flight software. I research mechanistic interpretability at the <a href="https://acmml.stanford.edu" target="_blank" rel="noopener">Stanford ACM ML Lab</a> and spent last summer at <a href="https://www.janestreet.com" target="_blank" rel="noopener">Jane Street</a> as part of AMP.</p>
+          <p>Before Stanford I was a competitive earth scientist — two-time Science Olympiad national champion, USESO top 50 — and I co-discovered a <a href="https://www.minorplanetcenter.net" target="_blank" rel="noopener">minor planet</a> during a summer of computational astrophysics at CU Boulder. I'm also slowly writing a short story called <em>Gaia</em>.</p>
+        </div>
+      </section>
+
+      <!-- 01 work -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-num">01</span>
+          <span class="section-title">work</span>
+        </div>
+        <div class="section-body">
+
+          <div class="entry">
+            <div class="entry-top">
+              <span class="entry-name"><a href="https://www.relativity.space" target="_blank" rel="noopener">Relativity Space</a></span>
+              <span class="entry-date">su '26</span>
+            </div>
+            <div class="entry-role">flight software intern · Long Beach, CA</div>
+            <ul class="bullets">
+              <li>Developing flight-critical embedded software for Terran R, Relativity's fully reusable, 3D-printed launch vehicle.</li>
+            </ul>
+          </div>
+
+          <div class="entry">
+            <div class="entry-top">
+              <span class="entry-name"><a href="https://acmml.stanford.edu" target="_blank" rel="noopener">Stanford ACM ML Lab</a></span>
+              <span class="entry-date">'25–</span>
+            </div>
+            <div class="entry-role">mechanistic interpretability researcher</div>
+            <ul class="bullets">
+              <li>Investigating how bias encodes and propagates through the internal representations of large language models — probing activations, attention patterns, and intermediate computations to surface causal structure.</li>
+            </ul>
+          </div>
+
+          <div class="entry">
+            <div class="entry-top">
+              <span class="entry-name"><a href="https://www.janestreet.com" target="_blank" rel="noopener">Jane Street</a></span>
+              <span class="entry-date">su '25</span>
+            </div>
+            <div class="entry-role">AMP program · quantitative research</div>
+            <ul class="bullets">
+              <li>Selective program for students with strong quantitative foundations; worked through markets problems, probability, and trading strategy alongside Jane Street researchers and traders.</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 02 projects -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-num">02</span>
+          <span class="section-title">projects</span>
+        </div>
+        <div class="section-body">
+
+          <div class="entry">
+            <div class="entry-top">
+              <span class="entry-name"><a href="#">EvolveGCN-T: replacing recurrence with self-attention for dynamic graph weight evolution</a></span>
+              <span class="entry-date">CS 229, 2025</span>
+            </div>
+            <div class="entry-role">python · pytorch · temporal GNNs · transformers</div>
+            <ul class="bullets">
+              <li>Designed EvolveGCN-T, replacing EvolveGCN's GRU-based weight evolution with a Transformer encoder attending directly over the sequence of GCN weight matrices — novel application of self-attention to evolving model parameters rather than node embeddings.</li>
+              <li>Evaluated across three benchmarks: node classification on Elliptic (~203k nodes, 49 time steps), edge classification on Bitcoin-OTC, and link prediction on SBM. Outperformed the matched recurrent baseline on Bitcoin-OTC (<strong>micro-F1 0.783 vs. 0.699</strong>) in a controlled, architecture-matched comparison.</li>
+              <li>Reproduced published baselines from scratch; ran systematic history-window ablations and identified optimization instability — not context length — as the binding constraint for this model family.</li>
+            </ul>
+          </div>
+
+          <div class="entry">
+            <div class="entry-top">
+              <span class="entry-name"><a href="#">Orbit determination of asteroid 7304 Namiki (1994 AE2)</a></span>
+              <span class="entry-date">SSP · CU Boulder, 2024</span>
+            </div>
+            <div class="entry-role">python · gauss's method · monte carlo simulation</div>
+            <ul class="bullets">
+              <li>Implemented Gauss's method of orbit determination from scratch — a nonlinear iterative inversion problem requiring numerical solution of Kepler's equation and Taylor-series refinement of the Lagrange coefficients — to determine all six classical orbital elements of a near-Earth asteroid from raw observational data.</li>
+              <li>Discovered orbital elements with <strong>&lt;0.1% uncertainty across all six elements</strong>; validated against JPL Horizons with sub-arcsecond positional residuals. Characterized solution uncertainty via 1M-iteration Monte Carlo simulation over the full astrometric error distribution.</li>
+              <li>Findings submitted to and accepted by the <strong>IAU Minor Planet Center</strong> — contributing to the permanent scientific record of near-Earth objects.</li>
+            </ul>
+          </div>
+
+          <div class="entry">
+            <div class="entry-top">
+              <span class="entry-name" style="font-style: italic;"><a href="#">Gaia</a></span>
+              <span class="entry-date">ongoing</span>
+            </div>
+            <div class="entry-role">short fiction</div>
+            <ul class="bullets">
+              <li>A short story about Silicon Valley utopianism and the things we build in our own image. No ETA.</li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 03 coursework -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-num">03</span>
+          <span class="section-title">coursework</span>
+        </div>
+        <div class="section-body">
+
+          <div class="cw-dept">computer science</div>
+          <div class="cw-row">
+            <span class="cw-code">CS 161</span>
+            <span class="cw-name">Algorithms</span>
+            <span class="tag tag-next">autumn 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">CS 229</span>
+            <span class="cw-name">Machine Learning<span class="cw-star">*</span></span>
+            <span class="tag tag-cur">spring 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">CS 107</span>
+            <span class="cw-name">Computer Organization &amp; Systems</span>
+            <span class="tag tag-past">winter 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">CS 109</span>
+            <span class="cw-name">Probability for Computer Scientists</span>
+            <span class="tag tag-past">winter 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">CS 106B</span>
+            <span class="cw-name">Programming Abstractions</span>
+            <span class="tag tag-past">autumn 25</span>
+          </div>
+
+          <div class="cw-dept">mathematics</div>
+          <div class="cw-row">
+            <span class="cw-code">MATH 171</span>
+            <span class="cw-name">Fundamental Concepts of Analysis</span>
+            <span class="tag tag-next">autumn 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">MATH 113</span>
+            <span class="cw-name">Theoretical Linear Algebra</span>
+            <span class="tag tag-cur">spring 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">MATH 53</span>
+            <span class="cw-name">Ordinary Differential Equations</span>
+            <span class="tag tag-past">winter 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">MATH 51</span>
+            <span class="cw-name">Multivariable Calculus</span>
+            <span class="tag tag-past">autumn 25</span>
+          </div>
+
+          <div class="cw-dept">other</div>
+          <div class="cw-row">
+            <span class="cw-code">ECON 50</span>
+            <span class="cw-name">Economic Analysis I</span>
+            <span class="tag tag-next">autumn 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">GEOPHYS 148</span>
+            <span class="cw-name">ML &amp; Physical Sciences</span>
+            <span class="tag tag-cur">spring 26</span>
+          </div>
+          <div class="cw-row">
+            <span class="cw-code">EPS 1</span>
+            <span class="cw-name">The Earth System</span>
+            <span class="tag tag-past">winter 26</span>
+          </div>
+
+          <div class="cw-footnote">* graduate-level course</div>
+
+        </div>
+      </section>
+
+      <!-- 04 elsewhere -->
+      <section class="section" id="elsewhere">
+        <div class="section-header">
+          <span class="section-num">04</span>
+          <span class="section-title">elsewhere</span>
+        </div>
+        <div class="section-body">
+          <p>I collect rocks. NACLO top 50 (linguistics olympiad). Former musical theater kid. I'm trying to write more and I'm getting there, slowly.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>
