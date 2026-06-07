@@ -93,7 +93,7 @@ a:hover { text-decoration-color: var(--text-primary); }
 .header-nav a:hover { color: var(--pink-dark); }
 
 /* ── sections ── */
-.section { margin-bottom: 2.75rem; }
+.section { margin-bottom: 2.75rem; border: none; }
 
 .section-header {
   display: flex;
