@@ -10,14 +10,14 @@
   --pink-dark:   #7a3a4e;
   --pink-fill:   #fff;
 
-  --text-primary:   #1c1c1a;
-  --text-secondary: #555350;
-  --text-tertiary:  #999790;
+  --text-primary:   #f4f3ef;
+  --text-secondary: #bcbab0;
+  --text-tertiary:  #99978f;
 
   --border-light:  rgba(0,0,0,0.10);
   --border-medium: rgba(0,0,0,0.18);
 
-  --bg: #fafaf8;
+  --bg: #30302e;
 
   --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace;
