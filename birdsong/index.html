@@ -50,9 +50,17 @@
     white-space: pre-line;
   }
   .subtitle .faint{ opacity:.55; }
+  .back{
+  position:fixed; top:16px; left:16px;
+  font-family:"Pixelify Sans", monospace; text-transform:lowercase;
+  color:#cfe0b0; text-decoration:none; font-size:15px; opacity:.7;
+  z-index:10;
+  }
+  .back:hover{ opacity:1; }
 </style>
 </head>
 <body>
+  <a class="back" href="/">← back</a>
   <img class="title-img" id="title" alt="Birdsong">
   <div class="wrapper" id="wrapper">
     <div class="stage" id="stage"></div>
@@ -83,7 +91,7 @@ const SCENE_W = 177, SCENE_H = 123;
 const TITLE_W = 64;
 const SCALE   = 4;
 
-const SUBTITLE = "> the idea of little pixel birds you can make sing popped into my head \n > so i decided to make little pixel birds that you can make sing \n > click on a bird to hear it chirp! \n <i class='faint'>sprites made in aseprite, code written in html + css</i>";
+const SUBTITLE = "> the idea of little pixel birds you can make sing popped into my head \n > so i decided to make little pixel birds that you can make sing \n > click on a bird to hear it chirp! \n <i class='faint'>sprites made in aseprite, code written in html + css + javascript</i>";
 
 /* x/y = sprite top-left (logical px). Birds overlap slightly; those later in
    this list sit on top. Hit testing uses each bird's baked shape (MASKS),
