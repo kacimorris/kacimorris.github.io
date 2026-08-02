@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>birdsong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; margin:0; }
+  body{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:20px; padding:24px 16px; background:#000;
+  }
+  img{ image-rendering:pixelated; -webkit-user-drag:none; user-select:none; display:block; }
+  .title-img{ width:64px; }
+  .wrapper{ position:relative; }
+  .stage{ position:absolute; top:0; left:0; transform-origin:top left; }
+  .bg{ position:absolute; top:0; left:0; }
+  .bird-img{
+    position:absolute; width:32px; height:32px; pointer-events:none;
+    transition:transform .12s ease;
+  }
+  .bird-img.hover{ transform:translateY(-2px); }
+  .bird-img.singing{ animation:hop .45s ease; }
+  @keyframes hop{ 0%{transform:translateY(0);} 35%{transform:translateY(-4px);} 100%{transform:translateY(0);} }
+  .bird-key{
+    position:absolute; padding:0; border:0; background:transparent; pointer-events:none;
+  }
+  .bird-key:focus-visible{ outline:2px solid #b6d94c; outline-offset:2px; }
+  .note{
+    position:absolute; font-family:monospace; color:#b6d94c;
+    pointer-events:none; animation:rise .8s ease-out forwards; text-shadow:0 1px 0 rgba(0,0,0,.6);
+  }
+  @keyframes rise{
+    0%{opacity:0; transform:translate(-50%,0) scale(.8);}
+    20%{opacity:1;}
+    100%{opacity:0; transform:translate(-50%,-22px) scale(1.1);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bird-img, .bird-img.singing{ transition:none; animation:none; }
+    .note{ animation-duration:.4s; }
+  }
+  .subtitle{
+    font-family:"Pixelify Sans", monospace;
+    color:#cfe0b0; font-size:15px; line-height:1.6; letter-spacing:.5px;
+    text-align:left; margin:0; text-transform:lowercase;
+    white-space: pre-line;
+  }
+  .subtitle .faint{ opacity:.55; }
+</style>
+</head>
+<body>
+  <img class="title-img" id="title" alt="Birdsong">
+  <div class="wrapper" id="wrapper">
+    <div class="stage" id="stage"></div>
+  </div>
+  <p class="subtitle" id="subtitle"></p>
+
+<script>
+const SPRITES = {
+"background": "sprites/background.png",
+"title": "sprites/title.png",
+"blue_jay": "sprites/blue_jay.png",
+"blue_jay_singing": "sprites/blue_jay_singing.png",
+"robin": "sprites/robin.png",
+"robin_singing": "sprites/robin_singing.png",
+"toucan": "sprites/toucan.png",
+"toucan_singing": "sprites/toucan_singing.png",
+"parrot": "sprites/parrot.png",
+"parrot_singing": "sprites/parrot_singing.png",
+"white_bird": "sprites/white_bird.png",
+"white_bird_singing": "sprites/white_bird_singing.png",
+"cardinal": "sprites/cardinal.png",
+"cardinal_singing": "sprites/cardinal_singing.png"
+};
+
+const MASKS = {"blue_jay": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000111000000000000000000000000000111110000000000000000000000001111111100000000000000000000000111111110000000000000000000000011111111110000000000000000000000111111111100000000000000000000001111111110000000000000000000001111111111110000000000000000000000111111111110000000000000000000000111111111110000000000000000000000111111111110000000000000000000001111111111100000000000000000000111111111111100000000000000000001111111111111100000000000000000011111111111111100000000000000000111111111111111000000000000000001111111111111111000000000000000001111111111111111000000000000000011111111111111110000000000000000011111111111111110000000000000000011111111111111110000000000000000011111111111111100000000000000000011111111111111100000000000000000000111100111111100000000000000000000000000001111000000000000000000000000000000110000000000000000000000000000000000000000000000000000000000000000000", "robin": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111110000000000000000000000000111111111000000000000000000000011111111111000000000000000000001111111111111000000000000000000011111111111111100000000000000000111111111111111110000000000000111111111111111111110000000000000011111111111111111110000000000001111111111111111111110000000000011111111111111111111110000000000111111111111111111111110000000000111111111111111111111110000000001111111111111111111111100000000011111111111111111111111000000000011111111111111111111111000000000111111111111111111111110000000000111111111111111111111110000000001111111111111111111111100000000001111111111111111111111100000000001111111111111111001111000000000000111111111111100000110000000000000011111111100000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", "toucan": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111100000000000000000000000000111111100000000000000000000011111111111100000000000000000111111111111111100000000000000011111111111111111000000000000001111111111111111110000000000000111111111111111111000000000000011111111000111111111000000000000111110000001111111110000000000001110000000111111111110000000000001000000001111111111110000000000000000000111111111111100000000000000000001111111111111100000000000000000011111111111111000000000000000000111111111111110000000000000000001111111111111100000000000000000011111111111111000000000000000000111111111111110000000000000000001111111111111100000000000000000011111111111111000000000000000000011111111111110000000000000000000111111111111100000000000000000000111111111111000000000000000000000111111111100000000000000000000000111111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", "parrot": "0000000000000000000000000000000000000000000000000000000000000000000000000011111000000000000000000000000001111111000000000000000000000000111111111000000000000000000000001111111111000000000000000000000011111111110000000000000000000001111111111100000000000000000000111111111111000000000000000000001111111111111000000000000000000011111111111110000000000000000000111011111111110000000000000000000100111111111100000000000000000000011111111111100000000000000000000111111111111000000000000000000001111111111111000000000000000000001111111111110000000000000000000001111111111110000000000000000000011111111111100000000000000000000111111111111100000000000000000001111111111111000000000000000000001111111111111000000000000000000011111111111110000000000000000000011111111111100000000000000000000011111111111100000000000000000000011111111111000000000000000000000011111111110000000000000000000000011111111110000000000000000000000000001111100000000000000000000000000000011100000000000000000000000000000000000000000000000000000000000000000000", "white_bird": "0000000000000000000000000000000000000000000000000000000000000000000000111100000000000000000000000000011111100000000000000000000000001111111100000000000000000000000011101111000000000000000000000000010011111000000000000000000000000001111111000000000000000000000000111111111000000000000000000000001111111111000000000000000000000111111111110000000000000000000011111111111100000000000000000001111111111111000000000000000000011111111111110000000000000000000111111111111111000000000000000000111111111111111111000000000000000101111111111111111111111100000000011111111111111111111110000000000111111111111111111111000000000000111111111111111111100000000000001111111111111111100000000000000001111111111111110000000000000000011111111111111100000000000000000111111111111110000000000000000000111111111111000000000000000000000111111111000000000000000000000000011111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", "cardinal": "0000000000000000000000000000000000000000000000110000000000000000000000000000111110000000000000000000000000011111000000000000000000000000001111111000000000000000000000000111111110000000000000000000000011111111000000000000000000000001111111111000000000000000000000011111111110000000000000000000001111111111100000000000000000000111111111111100000000000000000011111111111111000000000000000000011111111111111000000000000000000001111111111111000000000000000000011111111111110000000000000000000111111111111110000000000000000001111111111111110000000000000000011111111111111110000000000000000011111111111111100000000000000000111111111111111100000000000000001111111111111111100000000000000011111111111111111000000000000000011111111111111111000000000000000111111111111111111000000000000000111111111111111111000000000000000111111111101111111000000000000000111111000000111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"};
+
+const SCENE_W = 177, SCENE_H = 123;
+const TITLE_W = 64;
+const SCALE   = 4;
+
+const SUBTITLE = "> the idea of little pixel birds you can make sing popped into my head \n > so i decided to make little pixel birds that you can make sing \n > click on a bird to hear it chirp! \n <i class='faint'>sprites made in aseprite, code written in html + css</i>";
+
+/* x/y = sprite top-left (logical px). Birds overlap slightly; those later in
+   this list sit on top. Hit testing uses each bird's baked shape (MASKS),
+   so a tap only registers on the solid parts, not the white space */
+const BIRDS = [
+  { key:"blue_jay",   x:26,  y:44, note:523.25,  sound:null },
+  { key:"robin",      x:45,  y:46, note:587.33,  sound:null },
+  { key:"toucan",     x:63,  y:45, note:659.25,  sound:null },
+  { key:"parrot",     x:80,  y:43, note:783.99,  sound:null },
+  { key:"white_bird", x:100, y:45, note:880.00,  sound:null },
+  { key:"cardinal",   x:115, y:45, note:1046.50, sound:null },
+];
+
+const stage   = document.getElementById("stage");
+const wrapper = document.getElementById("wrapper");
+const titleEl = document.getElementById("title");
+titleEl.src = SPRITES["title"];
+
+const subtitleEl = document.getElementById("subtitle");
+subtitleEl.innerHTML = SUBTITLE;
+
+const bg = new Image();
+bg.src = SPRITES["background"]; bg.className = "bg"; bg.alt = "";
+stage.appendChild(bg);
+
+const label = { blue_jay:"blue jay", robin:"robin", toucan:"toucan",
+                parrot:"parrot", white_bird:"white bird", cardinal:"cardinal" };
+
+for (const b of BIRDS){
+  const img = new Image();
+  img.className = "bird-img";
+  img.style.left = b.x + "px"; img.style.top = b.y + "px";
+  img.alt = ""; img.src = SPRITES[b.key];
+  stage.appendChild(img);
+  b.img = img; b.timer = null;
+
+  const btn = document.createElement("button");
+  btn.className = "bird-key";
+  btn.style.left = b.x + "px"; btn.style.top = b.y + "px";
+  btn.style.width = "32px"; btn.style.height = "32px";
+  btn.setAttribute("aria-label", "Play the " + label[b.key]);
+  btn.addEventListener("click", () => sing(b));
+  btn.addEventListener("focus", () => setHover(b));
+  btn.addEventListener("blur",  () => setHover(null));
+  stage.appendChild(btn);
+  b.btn = btn;
+}
+
+/* ---------- pixel-level hit testing (uses baked MASKS) ---------- */
+let scale = SCALE;
+function pick(e){
+  const rect = stage.getBoundingClientRect();
+  const lx = Math.floor((e.clientX - rect.left) / scale);
+  const ly = Math.floor((e.clientY - rect.top)  / scale);
+  for (let i = BIRDS.length - 1; i >= 0; i--){   // topmost (rightmost) first
+    const b = BIRDS[i]; const px = lx - b.x, py = ly - b.y;
+    if (px>=0 && px<32 && py>=0 && py<32 && MASKS[b.key][py*32 + px] === "1") return b;
+  }
+  return null;
+}
+
+stage.addEventListener("click", (e) => { const b = pick(e); if (b) sing(b); });
+stage.addEventListener("mousemove", (e) => {
+  const b = pick(e);
+  stage.style.cursor = b ? "pointer" : "default";
+  setHover(b);
+});
+stage.addEventListener("mouseleave", () => setHover(null));
+
+function setHover(b){ for (const o of BIRDS) o.img.classList.toggle("hover", o === b); }
+
+/* ---------- interaction ---------- */
+function sing(b){
+  b.img.src = SPRITES[b.key + "_singing"];
+  b.img.classList.remove("singing"); void b.img.offsetWidth; b.img.classList.add("singing");
+  clearTimeout(b.timer);
+  b.timer = setTimeout(() => { b.img.src = SPRITES[b.key]; }, 550);
+  spawnNote(b); playBird(b);
+}
+
+function spawnNote(b){
+  const glyphs = ["\u266A","\u266B","\u2669"];
+  const n = document.createElement("span");
+  n.className = "note";
+  n.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+  n.style.left = (b.x + 16) + "px"; n.style.top = (b.y + 2) + "px";
+  n.style.fontSize = "12px";
+  stage.appendChild(n);
+  n.addEventListener("animationend", () => n.remove());
+}
+
+/* ---------- audio ---------- */
+let actx = null;
+function ensureAudio(){
+  if (!actx){ actx = new (window.AudioContext || window.webkitAudioContext)(); }
+  if (actx.state === "suspended") actx.resume();
+}
+function playBird(b){
+  if (b.sound){ const a = new Audio(b.sound); a.currentTime = 0; a.play(); return; }
+  playNote(b.note);
+}
+function playNote(freq){
+  ensureAudio();
+  const t = actx.currentTime;
+  const g = actx.createGain(); g.connect(actx.destination);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.28, t + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0008, t + 0.6);
+  const o1 = actx.createOscillator(); o1.type="triangle"; o1.frequency.value=freq;
+  const o2 = actx.createOscillator(); o2.type="sine"; o2.frequency.value=freq*2;
+  const g2 = actx.createGain(); g2.gain.value=0.3; o2.connect(g2);
+  const lfo = actx.createOscillator(); lfo.frequency.value=18;
+  const lfoGain = actx.createGain(); lfoGain.gain.value=6;
+  lfo.connect(lfoGain); lfoGain.connect(o1.frequency);
+  o1.connect(g); g2.connect(g);
+  o1.start(t); o2.start(t); lfo.start(t);
+  o1.stop(t+0.6); o2.stop(t+0.6); lfo.stop(t+0.6);
+}
+
+/* ---------- fixed, centered, integer-scaled ---------- */
+function fit(){
+  const pad = 24;
+  scale = Math.max(1, Math.min(SCALE, Math.floor((window.innerWidth - pad) / SCENE_W)));
+  stage.style.transform = "scale(" + scale + ")";
+  wrapper.style.width  = (SCENE_W * scale) + "px";
+  wrapper.style.height = (SCENE_H * scale) + "px";
+  titleEl.style.width  = (TITLE_W * scale) + "px";
+  subtitleEl.style.maxWidth = (SCENE_W * scale) + "px";
+}
+window.addEventListener("resize", fit);
+fit();
+</script>
+</body>
+</html>
