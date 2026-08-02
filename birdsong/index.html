@@ -31,8 +31,9 @@
   }
   .bird-key:focus-visible{ outline:2px solid #b6d94c; outline-offset:2px; }
   .note{
-    position:absolute; font-family:monospace; color:#b6d94c;
-    pointer-events:none; animation:rise .8s ease-out forwards; text-shadow:0 1px 0 rgba(0,0,0,.6);
+    position:absolute; width:16px;
+    pointer-events:none;
+    animation:rise .8s ease-out forwards;
   }
   @keyframes rise{
     0%{opacity:0; transform:translate(-50%,0) scale(.8);}
@@ -100,7 +101,7 @@ const BIRDS = [
   { key:"blue_jay",   x:26,  y:44, note:523.25,  sound:null },
   { key:"robin",      x:45,  y:46, note:587.33,  sound:null },
   { key:"toucan",     x:63,  y:45, note:659.25,  sound:null },
-  { key:"parrot",     x:80,  y:43, note:783.99,  sound:null },
+  { key:"parrot",     x:80,  y:45, note:783.99,  sound:null },
   { key:"white_bird", x:100, y:45, note:880.00,  sound:null },
   { key:"cardinal",   x:115, y:45, note:1046.50, sound:null },
 ];
@@ -173,11 +174,17 @@ function sing(b){
 }
 
 function spawnNote(b){
-  const glyphs = ["\u266A","\u266B","\u2669"];
-  const n = document.createElement("span");
+  const glyphs = ["sprites/red_music_note.png",
+                  "sprites/orange_music_note.png",
+                  "sprites/yellow_music_note.png",
+                  "sprites/green_music_note.png",
+                  "sprites/blue_music_note.png",
+                  "sprites/purple_music_note.png"];
+  const n = document.createElement("img");
   n.className = "note";
-  n.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
-  n.style.left = (b.x + 16) + "px"; n.style.top = (b.y + 2) + "px";
+  n.src = glyphs[Math.floor(Math.random()*glyphs.length)];
+  n.style.left = (b.x + 16) + "px";
+  n.style.top = (b.y + 2) + "px";
   n.style.fontSize = "12px";
   stage.appendChild(n);
   n.addEventListener("animationend", () => n.remove());
